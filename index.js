@@ -4,10 +4,11 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
+
   await page.goto('https://www.nieruchomosci-online.pl/');
 
   // Type into search box.
-  await page.type('.input-a', 'Gdańsk');
+  await page.type('.input-a', 'Gdynia');
 
   // Wait for suggest overlay to appear and click "show all results".
   const allResultsSelector = '.submit-a';
@@ -22,7 +23,7 @@ const puppeteer = require('puppeteer');
   // Extract the results from the page.
   const links = await page.evaluate(resultsSelector => {
     return [...document.querySelectorAll(resultsSelector)].map(anchor => {
-      const title = anchor.textContent.split('|')[0].trim();
+      const title = anchor.textContent;
       return `${title} - ${anchor.href}`;
     });
   }, resultsSelector);
