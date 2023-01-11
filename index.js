@@ -10,27 +10,16 @@ function Ofert(make, model, year) {
 (async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
+  let localizacion = 'Warszawa'
+  let priceMax = 400000
 
-
-  await page.goto('https://www.nieruchomosci-online.pl/');
+  await page.goto(`${"https://www.nieruchomosci-online.pl/szukaj.html?3,mieszkanie,sprzedaz,,"} + ${localizacion} + ${':,,,,-'} + ${priceMax}`)
+  
+  
 
   // Type into search box.
-  await page.type('.input-a', 'Gdynia');
-
-  // Wait for suggest overlay to appear and click "show all results".
-  const allResultsSelector = '.submit-a';
-  await page.waitForSelector(allResultsSelector);
-  await page.click(allResultsSelector);
-
-  //Clicks on filter to make the data smaller
-  const filterSelector = '.box__us--cta--secondary'
-  await page.waitForSelector(filterSelector);
-  await page.click(filterSelector);
-
-  //Selects barriers for filter in ---------------MAX PRICE
-  const maxPriceFilter = '.mobile_priceto';
-  await page.waitForSelector(maxPriceFilter);
-  await page.type(maxPriceFilter, '400000');
+ // await page.type('.input-a', 'Gdynia');
+  
 
   // Wait for the results page to load and display the results.
   const resultsSelector = '.tertiary';
