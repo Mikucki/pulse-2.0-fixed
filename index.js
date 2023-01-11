@@ -1,5 +1,12 @@
 const puppeteer = require('puppeteer');
 
+function Ofert(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+}
+
+
 (async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -15,21 +22,30 @@ const puppeteer = require('puppeteer');
   await page.waitForSelector(allResultsSelector);
   await page.click(allResultsSelector);
 
+  //Clicks on filter to make the data smaller
+  const filterSelector = '.box__us--cta--secondary'
+  await page.waitForSelector(filterSelector);
+  await page.click(filterSelector);
+
+  //Selects barriers for filter in ---------------MAX PRICE
+  const maxPriceFilter = '.mobile_priceto';
+  await page.waitForSelector(maxPriceFilter);
+  await page.type(maxPriceFilter, '400000');
+
   // Wait for the results page to load and display the results.
-  console.log('here')
-  const resultsSelector = '.tile-tile';
+  const resultsSelector = '.tertiary';
   await page.waitForSelector(resultsSelector);
 
   // Extract the results from the page.
   const links = await page.evaluate(resultsSelector => {
     return [...document.querySelectorAll(resultsSelector)].map(anchor => {
       const title = anchor.textContent;
-      return `${title} - ${anchor.href}`;
+      return `${title} ${'---------------------------------------------------------------'}`;
     });
   }, resultsSelector);
+  
 
   // Print all the files.
-  console.log(links.join('\n'));
-
+  console.log(links.join())
   await browser.close();
 })();
