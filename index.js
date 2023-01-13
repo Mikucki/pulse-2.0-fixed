@@ -7,25 +7,20 @@ let priceMax = 400000;
   const page = await browser.newPage();
 
   await page.goto(
-    `${"https://www.nieruchomosci-online.pl/szukaj.html?3,mieszkanie,sprzedaz,,"} + ${location} + ${":,,,,-"} + ${priceMax}`
+    `${"https://www.nieruchomosci-online.pl/szukaj.html?3,mieszkanie,sprzedaz,,"}${location}${":,,,,-"}${priceMax}`
   );
 
-  const resultsSelector = ".tertiary";
-  await page.waitForSelector(".tertiary");
-  let offers = await page.evaluate((priceMax, location) => {
-    let elements = document.querySelectorAll(".tertiary");
+  const resultsSelector = ".tiles";
+  await page.waitForSelector(".tiles");
+  let offers = await page.evaluate(() => {
+    let elements = document.querySelectorAll(".tiles");
     return Array.from(elements, (element) => {
       return {
-        offer: element.innerText.replace(/\n/g, "----------"),
-        title: "-----",
-        location: 123123123123,
-        city: "Gdynia",
-        priceMax: 123123123,
+        offer: element.innerText.replace(/\n/g, "--------------------"),
       };
     });
   });
-  console.log(offers);
 
-  // Print all the files.
+  console.log(offers);
   await browser.close();
 })();
