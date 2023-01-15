@@ -16,7 +16,7 @@ let priceMax = 400000;
     let elements = document.querySelectorAll(".tiles");
     return Array.from(elements, (element) => {
       return {
-        offer: element.innerText.replace(/\n/g, "--------------------"),
+        offer: element.innerText.replace(/\n/g, "-------------------------"),
       };
     });
   });
